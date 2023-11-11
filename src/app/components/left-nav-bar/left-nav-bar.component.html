@@ -1,0 +1,164 @@
+
+
+<div 
+class="rectangle" #rectangle_elem
+    [ngStyle]="style"
+    mwlResizable
+    [style.height] = "rect_height"
+    [style.width] = "rect_width"
+    [style.backgroundColor] = "rect_backgroundColor"
+    [validateResize]="validate"
+    [enableGhostResize]="true"
+    (resizeEnd)="onResizeEnd($event)">
+    <!-- <ng-content> </ng-content> -->
+        <div #right_edge_draggable 
+        [style.height] = "rect_height"  
+    
+        [style.backgroundColor]="handle_bar_right"  
+(mouseover)="handle_bar_right = handlebar_right_hover_color" 
+(mouseout)="handle_bar_right = handbar_right_default_hover_color"
+
+        
+
+
+        [ngStyle] ="right_edge_style" mwlResizeHandle  
+        [resizeEdges]="{ right: true }"
+        class="resize-handle-right"
+
+        ></div>
+   <div id="nav_top_selection"> 
+
+        <!-- <div class="nav_top_selection_cont flex-center">
+
+            <div id="search_cont" > 
+                <div class="search-box">
+                  <input type="text" class="search-input" placeholder="Search...">
+               
+              </div>
+            </div>
+
+           
+
+          
+        </div> -->
+
+        <div class="nav_top_selection_cont">
+          <div id="main_top_selection_container"> 
+
+            <div class="main_top_selector_item"> 
+              <mat-icon class="top_selection_icon"> search</mat-icon>
+              <mat-icon class="top_selection_icon icon_with_cursor hover_style_icon_basic spinable_animation_icon" (click)="refresh_nav()">
+                    refresh
+              </mat-icon>
+
+
+           <mat-icon class="top_selection_icon"> border_color</mat-icon> 
+
+          </div>
+
+          <div id="sub_main_top_selection_container"> 
+<!-- 
+             <mat-icon class="icon_with_cursor hover_style_icon_basic spinable_animation_icon" (click)="refresh_nav()">refresh</mat-icon>
+       <mat-icon class="icon_with_cursor hover_style_icon_basic "  (click)="fileInput.click()" > attach_file </mat-icon>
+            <input type="file" #fileInput style="display: none;" />
+            <h3> File Nav </h3> -->
+
+          </div>
+          
+        
+      
+      </div>
+      
+        
+        
+   </div>
+    
+      
+      <mat-tree 
+      [dataSource]="dataSource" 
+      [treeControl]="treeControl"
+      [style.width] = "rect_width">
+        
+      <!-- renders the main tree nodes and checks highlights whatever node is hovered -->
+      <mat-tree-node 
+          *matTreeNodeDef="let node"
+          matTreeNodePadding 
+          matTreeNodePaddingIndent="30"
+          [style.width]="rect_width"
+          [style.backgroundColor]="node === hoveredNode ? node_hover_background_color : node_regular_background_color" 
+          (mouseover)="hoveredNode = node" 
+          (mouseout)="hoveredNode = null">
+      
+          <mat-icon class="icon_with_cursor"></mat-icon>
+          <!-- using the file-icon-vector library to display file icons-->
+          <span class="fiv-{{file_icon_default_style_option}} fiv-icon-{{node.name.substring(node.name.lastIndexOf('.') + 1,node.name.length)}}"></span>
+          <!-- <mat-icon class="icon_with_cursor">insert_drive_file</mat-icon> -->
+
+          <div class="file_name"  (click)="open_file(node.page_url)"> 
+              {{ node.name }} 
+          </div> 
+    
+      </mat-tree-node>
+  
+    
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node  (mouseover)="hoveredFolderNode = node" (mouseleave)="hoveredFolderNode = null"
+
+          *matTreeNodeDef="let node;when: hasChild" 
+          
+          matTreeNodePadding 
+          matTreeNodePaddingIndent="30"
+          [style.width] = "rect_width" >
+            
+              <mat-icon class="icon_with_cursor" matTreeNodeToggle class="mat-icon-rtl-mirror">
+
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+              <mat-icon>folder</mat-icon>
+              
+                  > 
+
+              
+            <div class="folder_name" [ngStyle] = "folder_name_style"> 
+              {{node.name}} 
+              <!-- this is add file button portion-->
+              <mat-icon (click)="fileInput.click()" 
+              #add_file_icon
+              class="add_file small_mat_icon"
+              *ngIf="(hoveredFolderNode === node)"
+              > 
+              insert_drive_file
+          </mat-icon>
+
+            </div>
+            
+              
+              <input type="file" #fileInput style="display: none;" />
+
+          
+         
+          <!-- <mat-icon class="add_folder small_mat_icon">create_new_folder</mat-icon> -->
+
+        </mat-tree-node>
+
+      </mat-tree>
+      
+   
+  <!-- </div> -->
+
+  
+</div>
+
+
+
+
+  
+  
+  
+<!-- <input type="file" (change)="onFileSelected($event)" style="display:hidden"> -->
+
+
+  
+  
+  <!-- <ngx-dropzone (change)="onFileDrop($event)" ngx-dropzone-label="Drop Markdown files here" ngx-dropzone-accept=".md"></ngx-dropzone> -->
+

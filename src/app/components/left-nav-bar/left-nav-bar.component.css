@@ -1,0 +1,384 @@
+.fiv-cla, .fiv-viv, .fiv-sqo { font-size: 1.3em; }
+
+#search_cont
+{
+    position: absolute;
+    overflow: hidden;
+}
+.search-box {
+    
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 2.5px;
+    width: 250px;
+     
+}
+
+.search-input {
+    border: none;
+    padding: 5px;
+    outline: none;
+}
+
+.search-button {
+    border: none;
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    /* transition: background 0.3s ease; */
+}
+
+.search-button:hover {
+    background: #555;
+}
+
+
+#file_selection
+{
+    cursor: pointer;
+}
+
+#file_selection
+{
+    padding: 5px 10px 5px 10px ;
+    background-color: transparent;
+    font-size: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    
+}
+mat-tree
+{
+    background-color: transparent;
+    margin-top: 10px;
+    position: relative;
+    z-index: 50;
+}
+
+.highlighted:hover
+{
+    cursor: pointer;
+}
+#parent-cont
+{
+    height: 100vh;
+    width: 10vw;
+    cursor: pointer;
+    border: 2px solid rgb(52, 50, 50)
+}
+
+
+.file_folder_icon
+{
+    height: 28px;
+    width: 28px;
+} 
+/* 
+.file_name
+{
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 15px;
+    text-decoration: none;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 200;
+    text-overflow: ellipsis; 
+    width: 100%;
+} */
+
+
+
+#changeable-link:visited {
+}
+.file_folder_icon_small{
+    height: 25px;
+    width:25px ;
+    margin-right: 0px;
+    
+}
+.file_ext_icon{
+    height: 25;
+    width: 25px;
+}
+
+/*  Resizeable part */
+
+.rectangle {
+    /* position: relative; */
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: solid 1px transparent;
+    margin: 0;
+    z-index: 0;
+    border-radius: 5px;
+    overflow-x: auto;
+    overflow-y: auto;
+    text-overflow: ellipsis; /* add an ellipsis when text overflows */
+    box-shadow: 0 0 10px rgba(131, 105, 105, 0.341);
+    /* background: linear-gradient(to bottom, rgb(240,240,240)70%, rgb(240,240,240) 40%); */
+    
+  }
+  .rectangle::-webkit-scrollbar {
+    height: 10px;
+    background: rgba(150, 150, 150, .4);
+    width: 10px;
+    cursor: pointer;
+  }
+  
+  /* This is the handle or 'thumb' */
+  .rectangle::-webkit-scrollbar-thumb {
+    background: rgba(150, 150, 150, .4);
+    border-radius: 15px;
+
+  }
+  
+  /* On hover, make the thumb change color */
+  /*.rectangle::-webkit-scrollbar-thumb:hover {
+    background: #82c7efd4;
+  }*/
+  #container
+  {
+    background-color: transparent;
+   
+  }
+  .mwlResizable {
+    box-sizing: border-box; 
+  }
+
+  .resize-handle-left,
+  .resize-handle-right {
+    position: fixed;
+    cursor: col-resize;
+    width: 10px;
+    z-index: 9999;
+    top: 0;
+  }
+  .resize-handle-right:hover{
+    /* background-color: rgba(80, 173, 133, 0.2); */
+    width: 7px;
+
+  }
+
+  
+  mat-tree-node
+  {
+    cursor: auto;
+    
+  }
+  
+  
+  .file_folder_name_cont
+  {
+    width: 50px;
+    height: 25px;
+    overflow: auto;
+    position: absolute; /* Fixed positioning */
+    white-space: nowrap;
+    width: max-content;
+    overflow: hidden;
+  }
+  .folder_name
+  {
+    position: absolute; /* Fixed positioning */
+    white-space: nowrap;
+    overflow: none ;
+    z-index: 49;
+    width: 50%;
+    margin-left: 50px;
+    cursor: pointer;
+    text-overflow: ellipsis; /* add an ellipsis when text overflows */
+  }
+  
+  .add_file
+  {
+    position: absolute; /* Fixed positioning */
+    white-space: nowrap;
+    width: max-content;
+    overflow: hidden;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: inherit;
+    /* display: none; */
+  }
+
+  .add_folder
+  {
+    position: relative; 
+    white-space: nowrap;
+    width: max-content;
+    overflow: hidden;
+    z-index: 50;
+    margin-left: 5px;
+    cursor: auto;
+  }
+
+  .small_mat_icon
+  {
+    font-size: 20px;
+    height: 20px ;
+    width: 20px;
+  }
+
+  .mid_mat_icon
+  {
+    font-size: 25px;
+    height: 25px ;
+    width: 25px;
+  }
+
+.add_file:hover, .add_folder:hover, .top_level_add_file:hover
+{
+  cursor: pointer;
+}
+
+
+  .file_name
+  {
+    position: absolute; /* Fixed positioning */
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    z-index: 49;
+    margin-left: 50px;
+    cursor: pointer;
+    text-overflow: ellipsis;
+
+  }
+  .file_name:hover
+  {
+  } 
+
+  a{
+    text-decoration: none;
+    color: black;
+  }
+  .top_level_add_file
+  {
+    position: fixed; /* Fixed positioning */
+    white-space: nowrap;
+    width: max-content;
+    overflow: hidden;
+    z-index: 50;
+    margin-top: 5px;
+    margin-left: 320px;
+
+    cursor: auto;
+   }
+   .nav_top_selection_cont
+   {
+     min-width: 100%;
+     min-height: 80px;
+     margin-top: 0px;
+     margin-left: 0px;
+     border-radius: 5px;
+    position: relative; 
+     z-index: 5 !important;
+     visibility: visible;
+     background-color: transparent;
+   }
+   #main_top_selection_container
+   {
+    position: relative;
+    min-height: 65px;
+    
+    z-index: 100;
+    width: 100%;
+    background-color: #555; 
+   }
+   .top_selection_icon
+   {
+    color:white;
+   }
+   .main_top_selector_item
+   {
+    background-color: rgb(68, 53, 52);
+    max-height: 40px;
+    min-height: 40px;
+    max-width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+   }
+   #sub_main_top_selection_container
+   {
+    top: 0px;
+    position: relative;
+    min-width: 100%;
+    z-index: 100;
+
+   }
+   #reload_files,#top_file_add
+   {
+ 
+   }
+
+   .icon_with_cursor
+   {
+      cursor: pointer;
+   }
+   .hovered {
+}
+
+   .hover_style_basic:hover{
+    /* background-color: rgb(231, 104, 72) */
+   }
+   .hover_style_icon_basic:hover{
+    /* color: rgb(255, 88, 88); */
+    border-radius: 2px;
+   }
+   .flex-direction-row
+   {
+      flex-direction: row;
+   }
+   .flex-wrap
+   {
+    flex-wrap: wrap;
+   }
+   .flex-left
+   {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+   }
+
+   .flex-right
+   {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+   }
+   .flex-center
+   {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   }
+
+   .spinable_animation_icon:active
+   {
+    font-size: 28px;
+    animation: spin_icon_animation .28s linear infinite;
+
+   }
+   @keyframes spin_icon_animation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  h3{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin-left: 10px;
+    color: rgb(60, 81, 99);
+  }
