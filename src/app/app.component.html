@@ -1,14 +1,17 @@
 <app-left-nav-bar 
-        [rect_width]="'300px'" 
-        [rect_height] ="'860px'" 
-        [rect_backgroundColor]="'rgb(250,250,250)'"
-        [file_name_style]="{color: 'black', backgroundColor: 'rgb(240,250,250)', fontFamily: 'Arial'}"
-        [folder_name_style]="{color: 'black', backgroundColor: 'rgb(240,250,250)', fontFamily: 'Arial'}"
-        [node_hover_background_color] ="'rgb(200,150,100)'"
+        [rect_min_width]="'300px'" 
+        [rect_min_height] ="'900px'" 
+        [rect_max_height] = "'1200px'"
+        [rect_max_width] = "'500px'"
+        [rect_backgroundColor]="'rgb(65,65,65)'"
+        [file_name_style]="{color: 'rgb(240,240,240)', fontFamily: 'Arial', fontWeight:'600'}"
+        [folder_name_style]="{color: 'rgb(240,240,240)', fontFamily: 'Arial', fontWeight:'600'}"
+        [node_hover_background_color] ="'rgb(180,150,220)'"
         [node_regular_background_color] = "'transparent'"
         [handlebar_right_hover_color] = "'rgb(200,150,100)'"
         [handbar_right_default_hover_color] = "'transparent'"
         [file_icon_default_style_option]= "'sqo'"
+        [top_nav_section_background_color]="'rgb(0,200,200)'"
         >
 </app-left-nav-bar>
          

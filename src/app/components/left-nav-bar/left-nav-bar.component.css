@@ -13,7 +13,13 @@
     width: 250px;
      
 }
-
+input[name="search_filter"]
+{
+  width:80%;
+  height: 20px;
+  margin-top: 10px;
+  display:none;
+}
 .search-input {
     border: none;
     padding: 5px;
@@ -48,14 +54,29 @@
     text-align: center;
     
 }
+#mat_tree_container
+{
+     display: flex;
+     justify-content: baseline;
+     align-items: baseline;
+     visibility: visible;
+     margin: 50px 0px 0px 0px ;
+     text-overflow: ellipsis;
+     width: 100%;
+     z-index: 100 ;
+}
 mat-tree
 {
-    background-color: transparent;
-    margin-top: 10px;
-    position: relative;
-    z-index: 50;
+  min-height: 65px;
+  z-index: 100;
+  background-color: transparent;
+  position: absolute;
+  width: 100%;
 }
-
+mat-tree-node
+{
+  
+}
 .highlighted:hover
 {
     cursor: pointer;
@@ -102,24 +123,84 @@ mat-tree
     width: 25px;
 }
 
-/*  Resizeable part */
+ /* Resizeable part */ 
 
-.rectangle {
-    /* position: relative; */
+ /* .rectangle {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     border: solid 1px transparent;
     margin: 0;
-    z-index: 0;
     border-radius: 5px;
     overflow-x: auto;
     overflow-y: auto;
-    text-overflow: ellipsis; /* add an ellipsis when text overflows */
+    text-overflow: ellipsis;
     box-shadow: 0 0 10px rgba(131, 105, 105, 0.341);
-    /* background: linear-gradient(to bottom, rgb(240,240,240)70%, rgb(240,240,240) 40%); */
     
+  } */
+
+  mwlResizable {
+    box-sizing: border-box;
   }
+  
+  .rectangle {
+    position: relative;
+    top: 0px;
+    display: flex;
+    align-items: baseline;
+    justify-content: baseline;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 150px;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: red;
+    overflow-x: auto;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(131, 105, 105, 0.341);
+    border: solid 1px transparent;
+
+  } 
+  #nav_tool_container
+  {
+    display: flex;
+     justify-content: baseline;
+     align-items: baseline;
+     visibility: visible;
+     position: fixed;
+     z-index: 101;
+  }
+  .resize-handle-top,
+  .resize-handle-bottom {
+    position: absolute;
+    height: 8px;
+    width: 8px;
+    background-color: white;
+    cursor: row-resize;
+  }
+  .resize-handle-top {
+    top: 0;
+  }
+  .resize-handle-bottom {
+    bottom: 0;
+  }
+  .resize-handle-right {
+    position: fixed;
+    height: 100%;
+    cursor: col-resize;
+    width: 5px;
+    
+    z-index: 999999;
+  }
+
+  
+  .resize-handle-left {
+    left: 0;
+  }
+
+  
+
   .rectangle::-webkit-scrollbar {
     height: 10px;
     background: rgba(150, 150, 150, .4);
@@ -143,23 +224,8 @@ mat-tree
     background-color: transparent;
    
   }
-  .mwlResizable {
-    box-sizing: border-box; 
-  }
-
-  .resize-handle-left,
-  .resize-handle-right {
-    position: fixed;
-    cursor: col-resize;
-    width: 10px;
-    z-index: 9999;
-    top: 0;
-  }
-  .resize-handle-right:hover{
-    /* background-color: rgba(80, 173, 133, 0.2); */
-    width: 7px;
-
-  }
+  
+ 
 
   
   mat-tree-node
@@ -268,50 +334,29 @@ mat-tree
     margin-left: 320px;
 
     cursor: auto;
-   }
-   .nav_top_selection_cont
-   {
-     min-width: 100%;
-     min-height: 80px;
-     margin-top: 0px;
-     margin-left: 0px;
-     border-radius: 5px;
-    position: relative; 
-     z-index: 5 !important;
-     visibility: visible;
-     background-color: transparent;
-   }
-   #main_top_selection_container
-   {
-    position: relative;
-    min-height: 65px;
-    
-    z-index: 100;
-    width: 100%;
-    background-color: #555; 
-   }
+  }
+   
+   
    .top_selection_icon
    {
     color:white;
    }
-   .main_top_selector_item
+   
+   #sub_main_top_selection_container
    {
-    background-color: rgb(68, 53, 52);
+
+    position: relative;
+    z-index: 100;
+    width: 100%;
+
+    background-color: rgb(238, 29, 14);
     max-height: 40px;
     min-height: 40px;
-    max-width: 100%;
     justify-content: space-around;
     align-items: center;
     display: flex;
     flex-wrap: nowrap;
     text-align: center;
-   }
-   #sub_main_top_selection_container
-   {
-    top: 0px;
-    position: relative;
-    min-width: 100%;
-    z-index: 100;
 
    }
    #reload_files,#top_file_add
@@ -354,13 +399,25 @@ mat-tree
     justify-content: right;
     align-items: center;
    }
-   .flex-center
+   .flex_center
    {
     display: flex;
-    justify-content: center;
     align-items: center;
    }
-
+   .flex_jc_space_around
+   {
+    justify-content: space-around;
+   }
+   .container_basic
+   {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    text-align:center;
+    margin: auto;
+    justify-content: space-around;
+    align-items: center;
+   }
    .spinable_animation_icon:active
    {
     font-size: 28px;

@@ -36,8 +36,12 @@ export class LeftNavBarComponent implements OnInit, AfterViewInit {
   @Input() fullFileNodeList?: TreeNode[] = [];
   @Input() currentFileList?: TreeNode[] = [];
   public style: object = {};
-  @Input() rect_width?: string;
-  @Input() rect_height?: string;
+  @Input() rect_width: string = "'400px'";
+  @Input() rect_height: string = "'400px";
+  @Input() rect_min_width?: string;
+  @Input() rect_min_height?: string;
+  @Input() rect_max_width?: string;
+  @Input() rect_max_height?: string;
   @Input() bgColor: string = 'black';
   @Input() childBackgroundColor?: string;
   @Input() file_font_family?: string;
@@ -53,12 +57,15 @@ export class LeftNavBarComponent implements OnInit, AfterViewInit {
   @Input() file_icon_default_style_option:string = 'sqo';
   @Input() file_icon_map:Map<string,string> = new Map<string, string>;
   @Input() scrollbarColor!: string; // 'blue', 'red', etc.
+  @Input() top_nav_section_background_color:string = "'rgb(0,200,200)'";
   @ViewChildren('add_file_icon') add_file_icon_list!: QueryList<MatIcon>;
+  @ViewChild('nav_tool_container') nav_tool_container_vc!: ElementRef;
 
   hoveredNode: any = null;
   handle_bar_right: string = this.handbar_right_default_hover_color;  
   isHovering = false;
   hoveredFolderNode:any = null;
+  right_draggable_offset_px = 1;
 
 
   public right_edge_style: object = {};
@@ -132,7 +139,7 @@ nodes: any;
   }
   // **************** search nav portion ********************
 
-  search_filter(event:Event)
+  search_filter_click(text:string)
   {
 
   }
@@ -194,46 +201,87 @@ nodes: any;
 // **************** start of resizing portion  ********************
 
 
-  validate(event: ResizeEvent): boolean {
-    let screenWidth = window.innerWidth;
-    let screenHeight = window.innerHeight;
 
-    const MIN_WIDTH_DIMENSIONS_PX: number = (screenWidth * .10);
-    const MAX_WIDTH_DIMENSIONS_PX: number = (screenWidth * .20);
+  validate(event: ResizeEvent): boolean {
+    const MIN_DIMENSIONS_PX: number = 50;
     if (
-    event.rectangle.width &&
+      event.rectangle.width &&
       event.rectangle.height &&
-      (event.rectangle.width < MIN_WIDTH_DIMENSIONS_PX ||
-      event.rectangle.width > MAX_WIDTH_DIMENSIONS_PX) 
+      (event.rectangle.width < MIN_DIMENSIONS_PX ||
+        event.rectangle.height < MIN_DIMENSIONS_PX)
     ) {
       return false;
     }
     return true;
   }
 
-
   onResizeEnd(event: ResizeEvent): void {
-    // let left_position;
-    // let width;
-    // this.style = {
-    //   // left: `${event.rectangle.left}px`,
-    //   width: `${event.rectangle.width}px`,
-    //   height: `${event.rectangle.height}px`,
-    // };
-    
-    this.right_edge_style = {
-      margin: '0px 0px 0px ' + `${event.rectangle.width}px`,
+    this.style = {
+      position: 'fixed',
+      left: `${event.rectangle.left}px`,
+      // top: `${event.rectangle.top}px`,
+      width: `${event.rectangle.width}px`,
+      // height: `${event.rectangle.height}px`
     };
 
-    this.rect_height = event.rectangle.height + "px"
-    this.rect_width = event.rectangle.width + "px"
+    //update nav tool bar width
+    this.renderer.setStyle(this.nav_tool_container_vc.nativeElement, "width", event.rectangle.width + "px");
+    //set color of the draggable right edge
+    this.renderer.setStyle(this.right_edge_draggable_ref?.nativeElement, 'background-color', this.handlebar_right_hover_color);
+    let new_pos = (event.rectangle.width ?? 0) + this.right_draggable_offset_px;
+    console.log("value " + new_pos + " min width " + this.rect_min_width + " max width " + this.rect_max_width);
 
+    // update side drag color to the rectangle current width position
+    if(new_pos > parseInt(this.rect_min_width ?? "") && new_pos < parseInt(this.rect_max_width ?? ""))
+    {
+        this.renderer.setStyle(
+          this.right_edge_draggable_ref?.nativeElement, 
+          "left", 
+        new_pos + "px"
+      );
 
-    console.log("width: " + event.rectangle.width + " height: " + event.rectangle.height);
+    }
+
+    else if(new_pos <= parseInt(this.rect_min_width ?? ""))
+    {
+        this.renderer.setStyle(
+            this.right_edge_draggable_ref?.nativeElement, 
+            "left", 
+          parseInt(this.rect_min_width ?? "") + this.right_draggable_offset_px + "px"
+      );
+
+    }
+    else
+    {
+
+      console.log('max hit');
+        this.renderer.setStyle(
+          this.right_edge_draggable_ref?.nativeElement, 
+          "left", 
+          parseInt(this.rect_max_width ?? "") + this.right_draggable_offset_px + "px"
+      );
+
+    }
+
   }
 
- 
+  onMouseEnterRightEdge(event: MouseEvent): void {
+     this.renderer.setStyle(
+          this.right_edge_draggable_ref?.nativeElement, 
+          "background-color",
+          this.handlebar_right_hover_color);  // Change to your desired hover color
 }
+
+  onMouseLeaveRightEdge(event: MouseEvent): void {
+    this.renderer.setStyle(
+      this.right_edge_draggable_ref?.nativeElement, 
+      "background-color",
+      this.handbar_right_default_hover_color); 
+  }
+}
+
+ 
+
 interface FileSystemNode {
   page_url:string,
   name: string,

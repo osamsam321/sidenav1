@@ -22,6 +22,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { FileViewerComponent } from './component/file-viewer/file-viewer.component';
 //import { MarkdownModule } from 'ngx-markdown';
@@ -47,6 +48,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     MatDialogModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
   ],
   providers: [FileService],
   bootstrap: [AppComponent]

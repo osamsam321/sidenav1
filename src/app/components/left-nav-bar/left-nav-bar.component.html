@@ -1,52 +1,33 @@
 
 
-<div 
-class="rectangle" #rectangle_elem
+
+<div
+    class="rectangle"
     [ngStyle]="style"
     mwlResizable
-    [style.height] = "rect_height"
-    [style.width] = "rect_width"
-    [style.backgroundColor] = "rect_backgroundColor"
     [validateResize]="validate"
     [enableGhostResize]="true"
-    (resizeEnd)="onResizeEnd($event)">
-    <!-- <ng-content> </ng-content> -->
-        <div #right_edge_draggable 
-        [style.height] = "rect_height"  
-    
-        [style.backgroundColor]="handle_bar_right"  
-(mouseover)="handle_bar_right = handlebar_right_hover_color" 
-(mouseout)="handle_bar_right = handbar_right_default_hover_color"
+    [resizeSnapGrid]="{ left: 1, right: 1 }"
+    [style.width] = "rect_width"
+    [style.height] = "rect_height"
+    [style.maxWidth] = "rect_max_width"
+    [style.maxHeight] = "rect_max_height"
+    [style.minWidth] = "rect_min_width"
+    [style.minHeight] = "rect_min_height"
+    [style.backgroundColor] = "rect_backgroundColor"
 
-        
+    (resizeEnd)="onResizeEnd($event)"
+  >
 
-
-        [ngStyle] ="right_edge_style" mwlResizeHandle  
-        [resizeEdges]="{ right: true }"
-        class="resize-handle-right"
-
-        ></div>
-   <div id="nav_top_selection"> 
-
-        <!-- <div class="nav_top_selection_cont flex-center">
-
-            <div id="search_cont" > 
-                <div class="search-box">
-                  <input type="text" class="search-input" placeholder="Search...">
-               
-              </div>
-            </div>
-
-           
-
-          
-        </div> -->
-
-        <div class="nav_top_selection_cont">
-          <div id="main_top_selection_container"> 
-
-            <div class="main_top_selector_item"> 
-              <mat-icon class="top_selection_icon"> search</mat-icon>
+  <div id="nav_tool_container" 
+  #nav_tool_container 
+  [style.backgroundColor] = "top_nav_section_background_color" 
+  [style.height] = "'50px'"
+  [style.minWidth] = "rect_min_width"
+  [style.maxWidth] = "rect_max_width"
+>
+      <div  class="container_basic">
+        <mat-icon class="top_selection_icon"> search</mat-icon>
               <mat-icon class="top_selection_icon icon_with_cursor hover_style_icon_basic spinable_animation_icon" (click)="refresh_nav()">
                     refresh
               </mat-icon>
@@ -54,100 +35,140 @@ class="rectangle" #rectangle_elem
 
            <mat-icon class="top_selection_icon"> border_color</mat-icon> 
 
-          </div>
-
-          <div id="sub_main_top_selection_container"> 
-<!-- 
-             <mat-icon class="icon_with_cursor hover_style_icon_basic spinable_animation_icon" (click)="refresh_nav()">refresh</mat-icon>
-       <mat-icon class="icon_with_cursor hover_style_icon_basic "  (click)="fileInput.click()" > attach_file </mat-icon>
-            <input type="file" #fileInput style="display: none;" />
-            <h3> File Nav </h3> -->
-
-          </div>
-          
-        
-      
       </div>
-      
-        
-        
-   </div>
-    
-      
-      <mat-tree 
-      [dataSource]="dataSource" 
-      [treeControl]="treeControl"
-      [style.width] = "rect_width">
-        
-      <!-- renders the main tree nodes and checks highlights whatever node is hovered -->
-      <mat-tree-node 
-          *matTreeNodeDef="let node"
-          matTreeNodePadding 
-          matTreeNodePaddingIndent="30"
-          [style.width]="rect_width"
-          [style.backgroundColor]="node === hoveredNode ? node_hover_background_color : node_regular_background_color" 
-          (mouseover)="hoveredNode = node" 
-          (mouseout)="hoveredNode = null">
-      
-          <mat-icon class="icon_with_cursor"></mat-icon>
-          <!-- using the file-icon-vector library to display file icons-->
-          <span class="fiv-{{file_icon_default_style_option}} fiv-icon-{{node.name.substring(node.name.lastIndexOf('.') + 1,node.name.length)}}"></span>
-          <!-- <mat-icon class="icon_with_cursor">insert_drive_file</mat-icon> -->
 
-          <div class="file_name"  (click)="open_file(node.page_url)"> 
-              {{ node.name }} 
-          </div> 
-    
-      </mat-tree-node>
+      <div class="flex-center"> 
+
+
+      </div>
+
+  </div> 
+
+
+
+  <div id="mat_tree_container" 
+
+>
+  <mat-tree 
+  [dataSource]="dataSource" 
+  [treeControl]="treeControl"
+
+  >
   
-    
-        <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node  (mouseover)="hoveredFolderNode = node" (mouseleave)="hoveredFolderNode = null"
+  <!-- renders the main tree nodes and checks highlights whatever node is hovered -->
+  
+  <mat-tree-node 
+      *matTreeNodeDef="let node"
+      matTreeNodePadding 
+      matTreeNodePaddingIndent="30"
+      [style.backgroundColor]="node === hoveredNode ? node_hover_background_color : node_regular_background_color" 
+      (mouseover)="hoveredNode = node" 
+      (mouseout)="hoveredNode = null">
+  
+      <mat-icon class="icon_with_cursor"></mat-icon>
+      <!-- using the file-icon-vector library to display file icons-->
+      <span class="fiv-{{file_icon_default_style_option}} fiv-icon-{{node.name.substring(node.name.lastIndexOf('.') + 1,node.name.length)}}"></span>
+      <!-- <mat-icon class="icon_with_cursor">insert_drive_file</mat-icon> -->
 
-          *matTreeNodeDef="let node;when: hasChild" 
-          
-          matTreeNodePadding 
-          matTreeNodePaddingIndent="30"
-          [style.width] = "rect_width" >
-            
-              <mat-icon class="icon_with_cursor" matTreeNodeToggle class="mat-icon-rtl-mirror">
+      <div class="file_name" [ngStyle] = "file_name_style" (click)="open_file(node.page_url)"> 
+          {{ node.name }} 
+      </div> 
 
-                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-              </mat-icon>
-              <mat-icon>folder</mat-icon>
-              
-                  > 
+  </mat-tree-node>
 
-              
-            <div class="folder_name" [ngStyle] = "folder_name_style"> 
-              {{node.name}} 
-              <!-- this is add file button portion-->
-              <mat-icon (click)="fileInput.click()" 
-              #add_file_icon
-              class="add_file small_mat_icon"
-              *ngIf="(hoveredFolderNode === node)"
-              > 
-              insert_drive_file
+
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node  (mouseover)="hoveredFolderNode = node" (mouseleave)="hoveredFolderNode = null"
+
+      *matTreeNodeDef="let node;when: hasChild" 
+      
+      matTreeNodePadding 
+      matTreeNodePaddingIndent="30"
+      [style.width] = "rect_width" >
+        
+          <mat-icon class="icon_with_cursor" matTreeNodeToggle class="mat-icon-rtl-mirror">
+
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
-
-            </div>
-            
-              
-              <input type="file" #fileInput style="display: none;" />
+          <mat-icon>folder</mat-icon>
+          
+              > 
 
           
-         
-          <!-- <mat-icon class="add_folder small_mat_icon">create_new_folder</mat-icon> -->
+        <div class="folder_name" [ngStyle] = "folder_name_style"> 
+          {{node.name}} 
+          <!-- this is add file button portion-->
+          <mat-icon (click)="fileInput.click()" 
+          #add_file_icon
+          class="add_file small_mat_icon"
+          *ngIf="(hoveredFolderNode === node)"
+          > 
+          insert_drive_file
+      </mat-icon>
 
-        </mat-tree-node>
+        </div>
+        
+          
+          <input type="file" #fileInput style="display: none;" />
 
-      </mat-tree>
       
-   
-  <!-- </div> -->
+     
+      <!-- <mat-icon class="add_folder small_mat_icon">create_new_folder</mat-icon> -->
+
+    </mat-tree-node>
+
+  </mat-tree>
+</div>
+
+    <!-- <div
+      class="resize-handle-top"
+      mwlResizeHandle
+      [resizeEdges]="{ top: true }"
+    ></div>
+    <div
+      class="resize-handle-left"
+      mwlResizeHandle
+      [resizeEdges]="{ left: true }"
+    ></div> -->
+    <div
+      class="resize-handle-right"
+      (mouseenter)="onMouseEnterRightEdge($event)" 
+      (mouseleave)="onMouseLeaveRightEdge($event)"
+      mwlResizeHandle
+      [resizeEdges]="{ right: true }"
+      [style.left] = "rect_min_width"
+      #right_edge_draggable
+      
+    ></div>
+    <!-- <div
+      class="resize-handle-bottom"
+      mwlResizeHandle
+      [resizeEdges]="{ bottom: true }"
+    ></div> -->
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
-</div>
+<!-- </div> -->
 
 
 
