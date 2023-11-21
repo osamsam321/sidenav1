@@ -3,13 +3,12 @@
 
 <div
     class="rectangle"
+    (scroll)="onScroll($event)"
     [ngStyle]="style"
     mwlResizable
     [validateResize]="validate"
     [enableGhostResize]="true"
     [resizeSnapGrid]="{ left: 1, right: 1 }"
-    [style.width] = "rect_width"
-    [style.height] = "rect_height"
     [style.maxWidth] = "rect_max_width"
     [style.maxHeight] = "rect_max_height"
     [style.minWidth] = "rect_min_width"
@@ -17,6 +16,8 @@
     [style.backgroundColor] = "rect_backgroundColor"
 
     (resizeEnd)="onResizeEnd($event)"
+    #rectangle
+
   >
 
   <div id="nav_tool_container" 
@@ -25,6 +26,7 @@
   [style.height] = "'50px'"
   [style.minWidth] = "rect_min_width"
   [style.maxWidth] = "rect_max_width"
+
 >
       <div  class="container_basic">
         <mat-icon class="top_selection_icon"> search</mat-icon>
@@ -45,29 +47,35 @@
   </div> 
 
 
+  <!-- Super important!!!!! nav_toolbar height has to be set the on the margins here as for the nav toolbar div to stop jitter issue-->
+  
 
-  <div id="mat_tree_container" 
 
->
   <mat-tree 
   [dataSource]="dataSource" 
   [treeControl]="treeControl"
-
+  #nav_mat_tree
   >
   
   <!-- renders the main tree nodes and checks highlights whatever node is hovered -->
-  
+  <!-- renders files -->
   <mat-tree-node 
+      #file_mat_tree_node
+      [style.height] = "file_node_height" 
+      [style.width]="getFullNavBarWidth()"
       *matTreeNodeDef="let node"
-      matTreeNodePadding 
-      matTreeNodePaddingIndent="30"
-      [style.backgroundColor]="node === hoveredNode ? node_hover_background_color : node_regular_background_color" 
+      [style.backgroundColor]="node === hoveredNode ? file_node_hover_background_color : file_node_regular_background_color"
+      matTreeNodePadding
+      [matTreeNodePaddingIndent]="file_node_indent"
       (mouseover)="hoveredNode = node" 
       (mouseout)="hoveredNode = null">
   
-      <mat-icon class="icon_with_cursor"></mat-icon>
+      <!-- <mat-icon class="icon_with_cursor fiv-{{file_icon_default_style_option}} fiv-icon-{{node.name.substring(node.name.lastIndexOf('.') + 1,node.name.length)}}"
+      >
+
+      </mat-icon> -->
       <!-- using the file-icon-vector library to display file icons-->
-      <span class="fiv-{{file_icon_default_style_option}} fiv-icon-{{node.name.substring(node.name.lastIndexOf('.') + 1,node.name.length)}}"></span>
+      <div class="file_icon fiv-{{file_icon_default_style_option}} fiv-icon-{{node.name.substring(node.name.lastIndexOf('.') + 1,node.name.length)}}"></div>
       <!-- <mat-icon class="icon_with_cursor">insert_drive_file</mat-icon> -->
 
       <div class="file_name" [ngStyle] = "file_name_style" (click)="open_file(node.page_url)"> 
@@ -78,21 +86,27 @@
 
 
     <!-- This is the tree node template for expandable nodes -->
-    <mat-tree-node  (mouseover)="hoveredFolderNode = node" (mouseleave)="hoveredFolderNode = null"
+    <!-- renders folders -->
 
-      *matTreeNodeDef="let node;when: hasChild" 
-      
+    <mat-tree-node  
+      #folder_mat_tree_node
+      (mouseover)="hoveredFolderNode = node" 
+      (mouseleave)="hoveredFolderNode = null"
+      [style.height] = "folder_node_height"
+      [style.width]="getFullNavBarWidth()"
+      [style.backgroundColor]="node === hoveredFolderNode ? folder_node_hover_background_color : folder_node_regular_background_color"
+      *matTreeNodeDef="let node;when: hasChild"
       matTreeNodePadding 
-      matTreeNodePaddingIndent="30"
-      [style.width] = "rect_width" >
+      [matTreeNodePaddingIndent]="folder_node_indent"
+      >
         
-          <mat-icon class="icon_with_cursor" matTreeNodeToggle class="mat-icon-rtl-mirror">
+          <mat-icon class="folder_expand_icon icon_with_cursor mat-icon-rtl-mirror " matTreeNodeToggle >
 
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
-          <mat-icon>folder</mat-icon>
+          <!-- <mat-icon>folder</mat-icon>
           
-              > 
+              >  -->
 
           
         <div class="folder_name" [ngStyle] = "folder_name_style"> 
@@ -118,7 +132,6 @@
     </mat-tree-node>
 
   </mat-tree>
-</div>
 
     <!-- <div
       class="resize-handle-top"
@@ -137,6 +150,7 @@
       mwlResizeHandle
       [resizeEdges]="{ right: true }"
       [style.left] = "rect_min_width"
+      [style.width] = "resizable_right_width"
       #right_edge_draggable
       
     ></div>

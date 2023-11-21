@@ -1,4 +1,4 @@
-.fiv-cla, .fiv-viv, .fiv-sqo { font-size: 1.3em; }
+.fiv-cla, .fiv-viv, .fiv-sqo { font-size: 1.2em; }
 
 #search_cont
 {
@@ -67,15 +67,18 @@ input[name="search_filter"]
 }
 mat-tree
 {
+ 
+  visibility: visible;
+  margin: 50px 0px 0px 0px ;
+  text-overflow: ellipsis;
+  
+  
+  
   min-height: 65px;
   z-index: 100;
   background-color: transparent;
   position: absolute;
   width: 100%;
-}
-mat-tree-node
-{
-  
 }
 .highlighted:hover
 {
@@ -251,8 +254,7 @@ mat-tree-node
     white-space: nowrap;
     overflow: none ;
     z-index: 49;
-    width: 50%;
-    margin-left: 50px;
+    margin-left: 32px;
     cursor: pointer;
     text-overflow: ellipsis; /* add an ellipsis when text overflows */
   }
@@ -303,14 +305,20 @@ mat-tree-node
 }
 
 
+.file_icon{
+  margin-left: 10px;
+}
+.folder_expand_icon
+{
+  margin-left:7px;
+}
   .file_name
   {
     position: absolute; /* Fixed positioning */
     white-space: nowrap;
-    width: 100%;
     overflow: hidden;
     z-index: 49;
-    margin-left: 50px;
+    margin-left: 35px;
     cursor: pointer;
     text-overflow: ellipsis;
 

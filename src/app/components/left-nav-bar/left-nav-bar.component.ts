@@ -9,7 +9,7 @@ import { Observable, interval, map, of, take, timer } from 'rxjs';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { FileTypeOdi } from './FileTypeOdi';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode } from '@angular/material/tree';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { DataSource } from '@angular/cdk/collections';
@@ -25,6 +25,7 @@ import { DataSource } from '@angular/cdk/collections';
 
 @Injectable()
 export class LeftNavBarComponent implements OnInit, AfterViewInit {
+
 
   imageUrl?: string;
   public file_type = FileTypeOdi;
@@ -48,17 +49,28 @@ export class LeftNavBarComponent implements OnInit, AfterViewInit {
   @Input() folder_font_family?: string;
   @Input() file_name_style!: {[key: string]: string};
   @Input() folder_name_style!: {[key: string]: string};
+  @Input() file_node_indent:number = 30;
+  @Input() folder_node_indent:number =30;
+  @Input() file_node_height:string = "'50px'";
+  @Input() folder_node_height:string = "'50px'";
   @Input() rect_backgroundColor!:string;
-  @Input() node_hover_background_color!:string;
-  @Input() node_regular_background_color!:string;
+  @Input() file_node_hover_background_color:string = "'rgba(250,250,250,.2)'";
+  @Input() file_node_regular_background_color:string = "transparent";
+  @Input() folder_node_hover_background_color:string = "Transparent";
+  @Input() folder_node_regular_background_color:string = "transparent";
   @Input() handlebar_right_hover_color:string = 'green';
   @Input() handbar_right_default_hover_color:string = 'transparent';
+  @Input() nav_toolbar_height:string = "'40px'";
+  @Input() resizable_right_width:string = "'8px'";
+
   // could be cla - Classic, viv - Vivid, sqo - Square Outline
   @Input() file_icon_default_style_option:string = 'sqo';
   @Input() file_icon_map:Map<string,string> = new Map<string, string>;
   @Input() scrollbarColor!: string; // 'blue', 'red', etc.
-  @Input() top_nav_section_background_color:string = "'rgb(0,200,200)'";
+  @Input() top_nav_section_background_color:string = "'rgb(0,2000,200)'";
   @ViewChildren('add_file_icon') add_file_icon_list!: QueryList<MatIcon>;
+  @ViewChildren(MatTreeNode, { read: ElementRef }) file_mat_tree_node_vc!: QueryList<MatTreeNode<any>>;
+  @ViewChild('rectangle') rect_ref !: ElementRef;
   @ViewChild('nav_tool_container') nav_tool_container_vc!: ElementRef;
 
   hoveredNode: any = null;
@@ -66,6 +78,7 @@ export class LeftNavBarComponent implements OnInit, AfterViewInit {
   isHovering = false;
   hoveredFolderNode:any = null;
   right_draggable_offset_px = 1;
+  horizontal_scroll_pos:number = 0;
 
 
   public right_edge_style: object = {};
@@ -278,6 +291,19 @@ nodes: any;
       "background-color",
       this.handbar_right_default_hover_color); 
   }
+
+  onScroll(event: Event) {
+    this.horizontal_scroll_pos = (event.target as HTMLElement).scrollLeft;
+    }
+
+    //increase the size of the mat-tree-boxes when a horizontal scroll is applied
+    getFullNavBarWidth()
+    {
+      let curr_nav_size:number = this.rect_ref.nativeElement.offsetWidth;
+      let total_size = parseFloat( this.rect_ref.nativeElement.offsetWidth) + this.horizontal_scroll_pos;
+      return total_size + "px";
+
+    }
 }
 
  
